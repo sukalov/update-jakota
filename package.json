@@ -1,0 +1,22 @@
+{
+  "name": "update-jakota",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.20.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@planetscale/database": "^1.13.0",
+    "d3": "^7.8.5",
+    "drizzle-orm": "^0.29.1"
+  },
+  "scripts": {
+    "migrations:generate": "drizzle-kit generate:mysql",
+    "start": "bun run index.ts"
+  }
+}
