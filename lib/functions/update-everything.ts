@@ -2,10 +2,10 @@ import getIndexPrices from './get-index-prices';
 import { initialSteps } from './update-currencies-data';
 import { db } from '../db';
 import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '../db/schema';
-import { sql, eq, inArray, ne, isNull, gt } from 'drizzle-orm';
+import { eq, isNull} from 'drizzle-orm';
 // import { capIndexNames as indexNames} from '@/lib/cap-index-names';
 import { indexNames } from '../index-names';
-import { compareDates, timeout } from './utils';
+import { timeout } from './utils';
 import getIndexHistory2 from './get-index-history2';
 import { updateMarketCaps } from './update-market-caps';
 
@@ -19,19 +19,9 @@ export async function updateEverything() {
   const today = new Date();
   let newData = [] as any[];
 
-  // const indexName = 'anime-10';
-  // const nameForSQL = `"${indexName}"`;
-  // const dataSharesOutstanding2 = (await db
-  //   .select()
-  //   .from(stocks_info)
-  //   //  ) as DataSharesOutstanding[];
-  //   .where(sql`JSON_CONTAINS(${stocks_info.indicies}, ${nameForSQL})`)) as DataSharesOutstanding[];
-
   const dataSharesOutstanding = (await db
     .select()
     .from(stocks_info)
-    // .where(inArray(stocks_info.symbol, ['5574.TSE', '420770.KQ', '408900.KO', '5253.TSE', '439090.KQ', '6757.TW', '9166.TSE', '6757.TW', '406820.KQ']))
-    // .where(inArray(stocks_info.symbol, ['5574.TSE', '420770.KQ']))
     ) as StocksInfo[];
     const dataSharesOutstandingNoDelisted = (await db
       .select()
@@ -76,6 +66,6 @@ export async function updateEverything() {
     console.log({indexName, status: 'done'})
   }
 
-  await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
+  // await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
 
 };

@@ -22,7 +22,7 @@ const historical = async (symbol: string, startDate?: string, endDate?: string):
 const fundamentalAsync = async (symbol: string): Promise<Response> => {
   const res = await fetch(`${url_fundamental}${symbol}?api_token=${process.env.EOD_API_KEY}&fmt=json`);
   if (!res.ok) throw new Error(res.url);
-  return res;
+  return res as Response;
 };
 
 const historicalAsync = async (symbol: string, startDate?: string): Promise<Response> => {
@@ -30,21 +30,21 @@ const historicalAsync = async (symbol: string, startDate?: string): Promise<Resp
   const string = `${url_eod}${symbol}?api_token=${process.env.EOD_API_KEY}${from}&fmt=json`
   const res = await fetch(string);
   if (!res.ok) throw new Error(res.url);
-  return res;
+  return res as Response;
 };
 
 const dividentsAsync = async (symbol: string, startDate?: string): Promise<Response> => {
   const from = `&from=${startDate}` ?? '';
   const res = await fetch(`${url_div}${symbol}?api_token=${process.env.EOD_API_KEY}${from}&fmt=json`);
   if (!res.ok) throw new Error(JSON.stringify(res.statusText));
-  return res;
+  return res as Response;
 };
 
 const splitsAsync = async (symbol: string, startDate?: string): Promise<Response> => {
   const from = `&from=${startDate}` ?? '';
   const res = await fetch(`${url_splits}${symbol}?api_token=${process.env.EOD_API_KEY}${from}&fmt=json`);
   if (!res.ok) throw new Error(JSON.stringify(res.statusText));
-  return res;
+  return res as Response;
 };
 
 export default {
