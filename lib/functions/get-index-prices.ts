@@ -23,7 +23,7 @@ export default async function getIndexPrices(
       const batch = data.slice(i, i + batchSize);
       const batchRequests = batch.map((stock) => get.historicalAsync(stock.symbol, startDate));
       requests.push(batchRequests);
-      console.log('1/6. requests', i, 'of', data.length / 50);
+      console.log('1/6. requests', i, 'of', data.length);
     }
 
     let counter = 1
@@ -52,7 +52,7 @@ export default async function getIndexPrices(
 
     console.log('3/6')
 
-    
+
     // const result = await csv.readJSON('indexPricesInitial')
     // await db.delete(indexprices).where(eq(indexprices.type, 'result'))
     // await timeout(2000)
