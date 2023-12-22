@@ -17,6 +17,7 @@
   },
   "scripts": {
     "migrations:generate": "drizzle-kit generate:mysql",
-    "start": "bun run index.ts"
+    "start": "bun run index.ts",
+    "repeat": "bun run repeat.ts"
   }
 }

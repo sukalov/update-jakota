@@ -9,7 +9,7 @@ import { timeout } from './utils';
 import getIndexHistory2 from './get-index-history2';
 import { updateMarketCaps } from './update-market-caps';
 
-export async function updateEverything() {
+export async function repeatUpdateEverything() {
   await initialSteps();
   let newData = [] as any[];
 
@@ -32,14 +32,14 @@ export async function updateEverything() {
     return prev;
   }, {});
 
-  const dataIndexPrices = await getIndexPrices(dataSharesOutstanding, currData, '2022-12-28');
-  await db.delete(indexprices)
-  await timeout(1000)
-  await db.insert(indexprices).values({type: 'indexprices', json: dataIndexPrices})
+//   const dataIndexPrices = await getIndexPrices(dataSharesOutstanding, currData, '2022-12-28');
+//   await db.delete(indexprices)
+//   await timeout(1000)
+//   await db.insert(indexprices).values({type: 'indexprices', json: dataIndexPrices})
 
-  // const dataIndexPricesDB = await db.select().from(indexprices)
-  // const dataIndexPrices = dataIndexPricesDB[0]?.json as any[]
-  // await db.delete(indicies)
+  const dataIndexPricesDB = await db.select().from(indexprices)
+  const dataIndexPrices = dataIndexPricesDB[0]?.json as any[]
+//   await db.delete(indicies)
 
   
   for (let i = 0; i < indexNames.length; i++) {
@@ -60,6 +60,6 @@ export async function updateEverything() {
     console.log({indexName, status: 'done'})
   }
 
-  // await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
+  await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
 
 };
