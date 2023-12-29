@@ -1,3 +1,5 @@
+import { getArgs } from "./utils";
+
 export default function getIndexHistory2(
   dataIndexPrices: any,
   dataAdjustments: any,
@@ -82,8 +84,19 @@ export default function getIndexHistory2(
     });
   });
 
+  const process = getArgs()
+  let weekend: [number, number]
+  switch (process.zone) {
+    case 'Europe': weekend = [5, 6]
+    break;
+    case 'US': weekend = [6, 0];
+    break;
+    default: weekend = [5, 6]
+  }
+
+  console.log(weekend, process.zone)
   const indexHistoryNoWeekends = indexHistory.filter(
-    (day, i) => i === 0 || (new Date(day.date).getDay() !== 5 && new Date(day.date).getDay() !== 6)
+    (day, i) => i === 0 || (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1])
   );
 
   return indexHistoryNoWeekends;
