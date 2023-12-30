@@ -13,7 +13,8 @@
   "dependencies": {
     "@planetscale/database": "^1.13.0",
     "d3": "^7.8.5",
-    "drizzle-orm": "^0.29.1"
+    "drizzle-orm": "^0.29.1",
+    "prettier": "^3.1.1"
   },
   "scripts": {
     "migrations:generate": "drizzle-kit generate:mysql",

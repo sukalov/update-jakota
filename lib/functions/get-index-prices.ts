@@ -10,7 +10,6 @@ export default async function getIndexPrices(
   currenciesData: any[],
   startDate: string
 ): Promise<DataPrices[]> {
-
   let resData: any = [];
 
   try {
@@ -26,7 +25,7 @@ export default async function getIndexPrices(
       console.log('1/6. requests', i, 'of', data.length);
     }
 
-    let counter = 1
+    let counter = 1;
     for (const batchRequests of requests) {
       await timeout(800);
       const batchResponses = await Promise.all(batchRequests);
@@ -40,7 +39,7 @@ export default async function getIndexPrices(
       const batchResult = (await Promise.all(batchJson)) as ResponseHistorical[][];
       result.push(...batchResult);
       console.log('2/6. parse responses', counter, ' of ', requests.length);
-      counter += 1
+      counter += 1;
     }
 
     const indexHistory = getInitialIndexDates(startDate) as any[];
@@ -50,8 +49,7 @@ export default async function getIndexPrices(
       indexHistory[i] = cur;
     });
 
-    console.log('3/6')
-
+    console.log('3/6');
 
     // const result = await csv.readJSON('indexPricesInitial')
     // await db.delete(indexprices).where(eq(indexprices.type, 'result'))
@@ -72,12 +70,12 @@ export default async function getIndexPrices(
         };
       });
     });
-  console.log('4/6')
+    console.log('4/6');
 
     const completeData = addMissingValues(indexHistory);
     // const completeData = indexHistory;
 
-    console.log('5/6')
+    console.log('5/6');
 
     // return {completeData, data, currenciesData}
 
@@ -87,7 +85,7 @@ export default async function getIndexPrices(
       });
     });
 
-    console.log('completed!')
+    console.log('completed!');
 
     resData = completeData;
     return completeData;

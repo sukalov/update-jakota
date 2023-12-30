@@ -1,3 +1,3 @@
-import { updateEverything } from "./lib/functions/update-everything";
+import { updateEverything } from './lib/functions/update-everything';
 await updateEverything();
-console.log('everything updated successfully')
+console.log('everything updated successfully');

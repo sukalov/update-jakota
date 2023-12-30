@@ -1,4 +1,4 @@
-import { getArgs } from "./utils";
+import { getArgs } from './utils';
 
 export default function getIndexHistory2(
   dataIndexPrices: any,
@@ -44,7 +44,7 @@ export default function getIndexHistory2(
     let index_return_change = 0;
     Object.keys(percents).forEach((symbol) => {
       let symbol_change = (day[symbol] / day_previous[symbol]) * percents[symbol];
-      if (isNaN(symbol_change)) symbol_change = 0
+      if (isNaN(symbol_change)) symbol_change = 0;
       // if (isNaN(symbol_change)) console.log(symbol, percents[symbol], day_previous[symbol], day[symbol])
       // if (symbol === '420770.KQ') console.log({symbol}, percents[symbol], day_previous[symbol], day[symbol], {index_change, symbol_change, ADJ: dataAdjustments[i].date})
       index_change += symbol_change;
@@ -84,14 +84,17 @@ export default function getIndexHistory2(
     });
   });
 
-  const process = getArgs()
-  let weekend: [number, number]
+  const process = getArgs();
+  let weekend: [number, number];
   switch (process.zone) {
-    case 'Europe': weekend = [5, 6]
-    break;
-    case 'US': weekend = [6, 0];
-    break;
-    default: weekend = [5, 6]
+    case 'Europe':
+      weekend = [5, 6];
+      break;
+    case 'US':
+      weekend = [6, 0];
+      break;
+    default:
+      weekend = [5, 6];
   }
 
   const indexHistoryNoWeekends = indexHistory.filter(
