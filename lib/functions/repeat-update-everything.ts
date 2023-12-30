@@ -38,13 +38,13 @@ export async function repeatUpdateEverything() {
 
   for (let i = 0; i < indexNames.length; i++) {
     const indexName = String(indexNames[i]);
-    const oldAdjustments = await db.select().from(adjustments).where(eq(adjustments.index, indexName));
+    const indexAdjustments = await db.select().from(adjustments).where(eq(adjustments.index, indexName));
 
-    oldAdjustments.sort(function (a, b) {
-      return new Date(b.date) + new Date(a.date);
+    indexAdjustments.sort(function (a, b) {
+      return new Date(b.date).valueOf() + new Date(a.date).valueOf();
     });
 
-    const indexHistory = getIndexHistory2(dataIndexPrices, oldAdjustments, dataDividents, indexName) as any[];
+    const indexHistory = getIndexHistory2(dataIndexPrices, indexAdjustments, dataDividents, indexName) as any[];
     newData = [...newData, ...indexHistory];
     await db.delete(indicies).where(eq(indicies.name, indexName));
     await db.insert(indicies).values(indexHistory);
