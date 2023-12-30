@@ -3,7 +3,7 @@ Commands for updating and managing data for [JaKoTa index](https://jakotaindex.c
 
 ## installation
 
-First of all, [Bun](https://bun.sh) ddd  needs to be pre-installed. Then, to install dependencies run:
+First of all, [Bun](https://bun.sh)  needs to be pre-installed. Then, to install dependencies run:
 ```bash
 bun install
 ```
