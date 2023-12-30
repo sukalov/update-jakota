@@ -94,7 +94,6 @@ export default function getIndexHistory2(
     default: weekend = [5, 6]
   }
 
-  console.log(weekend, process.zone)
   const indexHistoryNoWeekends = indexHistory.filter(
     (day, i) => i === 0 || (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1])
   );

@@ -31,4 +31,5 @@ for (let i = 0; i < stocksWithSplits.length; i++) {
 }
 
 await csv.write('stocks_with_splits', stocksWithSplits);
+console.log ('table with splitted stocks is ready at \x1b[34m lib/data/stocks_with_splits \x1b[0m')
 
