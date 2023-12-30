@@ -1,6 +1,6 @@
 
 import { db } from '../db';
-import get from './get-from-eod';
+import { eod } from './get-from-eod';
 import { addMissingValues, getInitialIndexDates } from './utils';
 import { currencies } from '../db/schema';
 import { sql } from 'drizzle-orm';
@@ -10,7 +10,7 @@ export default async function getCurrenencyPrices(
   currenciesToCollect: Array<string> = ['KRW', 'JPY', 'TWD']
 ) {
   try {
-    const requests = currenciesToCollect.map((stock) => get.historicalAsync(`${stock}.FOREX`, startDate));
+    const requests = currenciesToCollect.map((stock) => eod.historicalAsync(`${stock}.FOREX`, startDate));
     const responses = await Promise.all(requests);
     const errors = responses.filter((response: { ok: boolean }) => !response.ok);
 

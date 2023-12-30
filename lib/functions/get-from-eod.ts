@@ -47,7 +47,7 @@ const splitsAsync = async (symbol: string, startDate?: string): Promise<Response
   return res as Response;
 };
 
-export default {
+export const eod =  {
   historical,
   historicalAsync,
   fundamental,

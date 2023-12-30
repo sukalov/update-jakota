@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { indexprices } from '../db/schema';
-import get from './get-from-eod';
+import { eod } from './get-from-eod';
 import toUSD from './translate-to-usd';
 import { getInitialIndexDates, addMissingValues, timeout } from './utils';
 
@@ -21,7 +21,7 @@ export default async function getIndexPrices(
     for (let i = 0; i < data.length; i += batchSize) {
       await timeout(1900);
       const batch = data.slice(i, i + batchSize);
-      const batchRequests = batch.map((stock) => get.historicalAsync(stock.symbol, startDate));
+      const batchRequests = batch.map((stock) => eod.historicalAsync(stock.symbol, startDate));
       requests.push(batchRequests);
       console.log('1/6. requests', i, 'of', data.length);
     }
