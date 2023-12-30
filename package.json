@@ -18,6 +18,7 @@
   "scripts": {
     "migrations:generate": "drizzle-kit generate:mysql",
     "start": "bun run index.ts --zone=US",
-    "repeat": "bun run repeat.ts --zone=US"
+    "repeat": "bun run repeat.ts --zone=US",
+    "splits": "bun run lib/splits.ts --start=2023-09-29"
   }
 }
