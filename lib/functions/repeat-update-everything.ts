@@ -4,7 +4,7 @@ import { db } from '../db';
 import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '../db/schema';
 import { eq, isNull } from 'drizzle-orm';
 // import { capIndexNames as indexNames} from '@/lib/cap-index-names';
-import { indexNames } from '../index-names';
+import { indexNames } from '../constants/index-names.ts';
 import { timeout } from './utils';
 import getIndexHistory2 from './get-index-history2';
 import { updateMarketCaps } from './update-market-caps';
