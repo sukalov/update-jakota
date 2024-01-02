@@ -1,4 +1,4 @@
-import { getArgs } from '@/lib/functions/utils';
+import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
 import { DataDividents, IndexDay } from '@/types/data-functions';
 
 export default function getIndexHistory2(
@@ -99,7 +99,10 @@ export default function getIndexHistory2(
   }
 
   const indexHistoryNoWeekends = indexHistory.filter(
-    (day, i) => i === 0 || (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1])
+    (day, i) => {
+      const isItFirstJanuary = isFirstJanuary(new Date(new Date(day.date).toLocaleString('en-US', { timeZone: 'UTC' })))
+      return i === 0 || (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1] && !isItFirstJanuary)
+    }
   );
 
   return indexHistoryNoWeekends;

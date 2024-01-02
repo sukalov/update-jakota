@@ -131,3 +131,7 @@ export function getArgs() {
   });
   return args;
 }
+
+export function isFirstJanuary(date: Date) {
+  return (date.getMonth() === 0 && date.getDate() === 1);
+}
