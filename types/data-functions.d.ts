@@ -1,4 +1,4 @@
-import { IndexName } from "@/lib/constants/index-names";
+import { IndexName } from '@/lib/constants/index-names';
 
 interface DataOnlySymbol {
   symbol: string;
