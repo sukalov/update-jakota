@@ -4,8 +4,6 @@ import { drizzle } from 'drizzle-orm/planetscale-serverless';
 
 import { fetch } from 'undici';
 
-import 'dotenv/config';
-
 // inspired by Raphael Moreau @rphlmr for Postgres, extended for Planetscale
 const runMigrate = async () => {
   if (!process.env.DATABASE_URL) {
