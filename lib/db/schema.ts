@@ -1,4 +1,4 @@
-import { mysqlTable, serial, text, date, json, bigint, float, boolean, varchar } from 'drizzle-orm/mysql-core';
+import { mysqlTable, serial, text, date, json, bigint, float, boolean, varchar, unique } from 'drizzle-orm/mysql-core';
 import { IndexName } from '../constants/index-names';
 
 export const currencies = mysqlTable('currencies', {
@@ -10,7 +10,7 @@ export const currencies = mysqlTable('currencies', {
 
 export const stocks_info = mysqlTable('stocks_info', {
   id: serial('id').notNull().unique(),
-  symbol: text('symbol').primaryKey(),
+  symbol: varchar('symbol', { length: 20 }).primaryKey(),
   name: text('name'),
   currency: text('currency'),
   country: text('country'),
@@ -25,12 +25,15 @@ export const stocks_info = mysqlTable('stocks_info', {
 export const adjustments = mysqlTable('adjustments', {
   id: serial('id').primaryKey(),
   date: date('date').notNull(),
-  index: text('index').notNull(),
+  index: varchar('index', {length: 255}).notNull().default(''),
   capitalizations: json('capitalizations').notNull(),
   original_percents: json('original_percents').notNull(),
   percents: json('percents').notNull(),
   is_quartile: boolean('is_quartile'),
-});
+},
+  (t) => ({
+    unq: unique().on(t.date, t.index),
+  }));
 
 export const indicies = mysqlTable('indicies', {
   id: serial('id').primaryKey(),
