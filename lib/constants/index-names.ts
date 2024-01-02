@@ -7,7 +7,7 @@ export const indexNames: IndexName[] = [
   'kpop-25',
   'beauty-40',
   'games-75',
-  'anime-15',
+  'anime-20',
   'semicon-75',
 ];
 
@@ -20,5 +20,5 @@ export type IndexName =
   | 'kpop-25'
   | 'beauty-40'
   | 'games-75'
-  | 'anime-15'
+  | 'anime-20'
   | 'semicon-75';
