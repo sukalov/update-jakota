@@ -1,3 +1,5 @@
+import { IndexName } from "@/lib/constants/index-names";
+
 interface DataOnlySymbol {
   symbol: string;
   [otherOptions: string]: unknown;
@@ -19,7 +21,34 @@ interface StocksInfo {
   shares: number;
   market_cap: number;
   cap_index: 'Blue Chip' | 'Mid/Small Cap' | null;
-  indicies: Array<string>;
+  indicies: Array<IndexName>;
+  is_delisted: boolean;
+}
+
+interface StocksInfoExtended {
+  id: number;
+  symbol: string;
+  name: string;
+  currency: 'TWD' | 'JPY' | 'USD' | 'KRW';
+  country: 'Japan' | 'Taiwan' | 'South Korea';
+  shares: number;
+  market_cap: number;
+  cap_index: 'Blue Chip' | 'Mid/Small Cap' | null;
+  indicies: Array<IndexName>;
+  is_delisted: boolean;
+  [key: string]: number;
+}
+
+interface StocksInfo {
+  id: number;
+  symbol: string;
+  name: string;
+  currency: 'TWD' | 'JPY' | 'USD' | 'KRW';
+  country: 'Japan' | 'Taiwan' | 'South Korea';
+  shares: number;
+  market_cap: number;
+  cap_index: 'Blue Chip' | 'Mid/Small Cap' | null;
+  indicies: Array<IndexName>;
   is_delisted: boolean;
 }
 
@@ -124,16 +153,18 @@ interface DataTotal {
 }
 
 interface DataPrices {
-  date: string;
-  [symbol: string]: number;
+  date: StringDate;
+  [symbol: string]: number | StringDate;
 }
 
 interface DataAdjustments {
   id: number;
-  date: Date;
+  date: StringDate;
   index: string;
   capitalizations: { [symbol: string]: number };
   original_percents: { [symbol: string]: number };
   percents: { [symbol: string]: number };
   is_quartile: boolean;
 }
+
+type StringDate = `${number}${number}${number}${number}-${number}${number}-${number}${number}`;

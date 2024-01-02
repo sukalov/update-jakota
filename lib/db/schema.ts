@@ -1,4 +1,5 @@
 import { mysqlTable, serial, text, date, json, bigint, float, boolean, varchar } from 'drizzle-orm/mysql-core';
+import { IndexName } from '../constants/index-names';
 
 export const currencies = mysqlTable('currencies', {
   date: date('date').primaryKey(),
@@ -17,7 +18,7 @@ export const stocks_info = mysqlTable('stocks_info', {
   market_cap: bigint('market_cap', { mode: 'number' }),
   last_price: float('last_price'),
   cap_index: text('cap_index'),
-  indicies: json('indicies'),
+  indicies: json('indicies').$type<IndexName[]>(),
   is_delisted: boolean('is_delisted'),
 });
 
