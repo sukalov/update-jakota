@@ -14,12 +14,14 @@
     "@planetscale/database": "^1.13.0",
     "d3": "^7.8.5",
     "drizzle-orm": "^0.29.1",
+    "mysql2": "^3.6.5",
     "prettier": "^3.1.1"
   },
   "scripts": {
     "migrations:generate": "drizzle-kit generate:mysql",
     "start": "bun run index.ts --zone=US",
     "repeat": "bun run repeat.ts --zone=US",
-    "splits": "bun run lib/splits.ts --start=2023-09-29"
+    "splits": "bun run lib/splits.ts --start=2023-09-29",
+    "new-adjustments": "bun run lib/new-adjustments.ts"
   }
 }

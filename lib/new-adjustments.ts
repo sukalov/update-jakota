@@ -18,4 +18,6 @@ if (String(process.date).match(stringDateRegEx)) {
 for (let indexName of indexNames) {
   const newAdjustment = await createAdjustment(dataIndexPrices, indexName, date);
   await db.insert(adjustments).values(newAdjustment);
-}
+  console.log(`new adjustment for ${indexName} with date ${date} created and saved`)
+};
+console.log('finish')
