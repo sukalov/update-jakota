@@ -1,10 +1,11 @@
 import { inArray, isNull } from 'drizzle-orm';
-import { db } from './db';
-import { stocks_info } from './db/schema';
-import getSplits from './functions/get-splits';
-import { getArgs } from './functions/utils';
-import { eod } from './functions/get-from-eod';
-import { csv } from './functions/read-write-csv';
+import { db } from '@/lib/db';
+import { stocks_info } from '@/lib/db/schema';
+import getSplits from '@/lib/functions/get-splits';
+import { getArgs } from '@/lib/functions/utils';
+import { eod } from '@/lib/functions/get-from-eod';
+import { csv } from '@/lib/functions/read-write-csv';
+import { StocksInfo } from '@/types/data-functions';
 
 interface StocksInfoExtended extends StocksInfo {
   shares_modern?: number;

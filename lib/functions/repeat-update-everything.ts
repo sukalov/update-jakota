@@ -1,19 +1,16 @@
-import getIndexPrices from './get-index-prices';
-import { initialSteps } from './update-currencies-data';
-import { db } from '../db';
-import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '../db/schema';
+import getIndexPrices from '@/lib/functions/get-index-prices';
+import { initialSteps } from '@/lib/functions/update-currencies-data';
+import { db } from '@/lib/db';
+import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '@/lib/db/schema';
 import { eq, isNull } from 'drizzle-orm';
-// import { capIndexNames as indexNames} from '@/lib/cap-index-names';
-import { indexNames } from '../constants/index-names.ts';
-import { timeout } from './utils';
-import getIndexHistory2 from './get-index-history2';
-import { updateMarketCaps } from './update-market-caps';
+import { indexNames } from '@/lib/constants/index-names.ts';
+import getIndexHistory2 from '@/lib/functions/get-index-history2';
+import { updateMarketCaps } from '@/lib/functions/update-market-caps';
+import { CurrenciesPrice, DataDividents, StocksInfo } from '@/types/data-functions';
 
 export async function repeatUpdateEverything() {
   await initialSteps();
   let newData = [] as any[];
-
-  const dataSharesOutstanding = (await db.select().from(stocks_info)) as StocksInfo[];
   const dataSharesOutstandingNoDelisted = (await db
     .select()
     .from(stocks_info)
@@ -27,14 +24,8 @@ export async function repeatUpdateEverything() {
     return prev;
   }, {});
 
-  //   const dataIndexPrices = await getIndexPrices(dataSharesOutstanding, currData, '2022-12-28');
-  //   await db.delete(indexprices)
-  //   await timeout(1000)
-  //   await db.insert(indexprices).values({type: 'indexprices', json: dataIndexPrices})
-
   const dataIndexPricesDB = await db.select().from(indexprices);
   const dataIndexPrices = dataIndexPricesDB[0]?.json as any[];
-  //   await db.delete(indicies)
 
   for (let i = 0; i < indexNames.length; i++) {
     const indexName = String(indexNames[i]);

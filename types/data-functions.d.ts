@@ -130,7 +130,7 @@ interface CurrenciesPrice {
 }
 
 interface IndexDay {
-  date: string;
+  date: StringDate;
   name: string | undefined;
   adjustment: string | undefined;
   index: number | undefined;

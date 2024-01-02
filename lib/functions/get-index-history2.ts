@@ -1,4 +1,5 @@
-import { getArgs } from './utils';
+import { getArgs } from '@/lib/functions/utils';
+import { DataDividents, IndexDay } from '@/types/data-functions';
 
 export default function getIndexHistory2(
   dataIndexPrices: any,

@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../db';
-import { stocks_info } from '../db/schema';
+import { db } from '@/lib/db';
+import { stocks_info } from '@/lib/db/schema';
+import { DataPrices, StocksInfo } from '@/types/data-functions';
 
 export const updateMarketCaps = async (dataSharesOutstanding: StocksInfo[], indexPrices: DataPrices[]) => {
   const todayPrices = indexPrices.at(-1) as DataPrices;
@@ -18,7 +19,7 @@ export const updateMarketCaps = async (dataSharesOutstanding: StocksInfo[], inde
         res.push({ el, currentMC });
         await db
           .update(stocks_info)
-          .set({ market_cap: currentMC, last_price: todayPrices[el] })
+          .set({ market_cap: currentMC })
           .where(eq(stocks_info.symbol, el));
       }
     }

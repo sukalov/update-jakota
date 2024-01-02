@@ -1,6 +1,7 @@
-import { currencies } from '../db/schema';
-import { eod } from './get-from-eod';
-import { timeout } from './utils';
+import { ResponseDividents, StocksInfo } from '@/types/data-functions';
+import { currencies } from '@/lib/db/schema';
+import { eod } from '@/lib/functions/get-from-eod';
+import { timeout } from '@/lib/functions/utils';
 
 export default async function getSplits(data: StocksInfo[], startDate: string) {
   try {

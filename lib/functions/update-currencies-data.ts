@@ -1,9 +1,7 @@
 import { eq, sql } from 'drizzle-orm';
-import { db } from '../db';
-import { currencies, stocks_info } from '../db/schema';
-import getCurrenencyPrices from './get-currencies';
-import { compareDates } from './utils';
-import getIndexPrices from './get-index-prices';
+import { db } from '@/lib/db';
+import { currencies, stocks_info } from '@/lib/db/schema';
+import getCurrenencyPrices from '@/lib/functions/get-currencies';
 
 export const initialSteps = async () => {
   const last_date = await db

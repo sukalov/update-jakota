@@ -1,8 +1,9 @@
-import { db } from '../db';
-import { eod } from './get-from-eod';
-import { addMissingValues, getInitialIndexDates } from './utils';
-import { currencies } from '../db/schema';
+import { db } from '@/lib/db';
+import { eod } from '@/lib/functions/get-from-eod';
+import { addMissingValues, getInitialIndexDates } from '@/lib/functions/utils';
+import { currencies } from '@/lib/db/schema';
 import { sql } from 'drizzle-orm';
+import { CurrenciesPrice, ResponseHistorical } from '@/types/data-functions';
 
 export default async function getCurrenencyPrices(
   startDate: string = '2022-12-28',

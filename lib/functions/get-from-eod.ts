@@ -1,3 +1,5 @@
+import { ResponseFundamental, ResponseHistorical } from "@/types/data-functions";
+
 const url_eod = 'https://eodhistoricaldata.com/api/eod/';
 const url_fundamental = 'https://eodhistoricaldata.com/api/fundamentals/';
 const url_div = 'https://eodhistoricaldata.com/api/div/';

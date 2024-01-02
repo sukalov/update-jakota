@@ -1,13 +1,14 @@
-import getIndexPrices from './get-index-prices';
-import { initialSteps } from './update-currencies-data';
-import { db } from '../db';
-import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '../db/schema';
+import getIndexPrices from '@/lib/functions/get-index-prices';
+import { initialSteps } from '@/lib/functions/update-currencies-data';
+import { db } from '@/lib/db';
+import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '@/lib/db/schema';
 import { eq, isNull } from 'drizzle-orm';
 // import { capIndexNames as indexNames} from '@/lib/cap-index-names';
-import { indexNames } from '../constants/index-names.ts';
-import { timeout } from './utils';
-import getIndexHistory2 from './get-index-history2';
-import { updateMarketCaps } from './update-market-caps';
+import { indexNames } from '@/lib/constants/index-names.ts';
+import { timeout } from '@/lib/functions/utils';
+import getIndexHistory2 from '@/lib/functions/get-index-history2';
+import { updateMarketCaps } from '@/lib/functions/update-market-caps';
+import { CurrenciesPrice, DataDividents, StocksInfo } from '@/types/data-functions';
 
 export async function updateEverything() {
   await initialSteps();
@@ -32,10 +33,6 @@ export async function updateEverything() {
   await timeout(1000);
   await db.insert(indexprices).values({ type: 'indexprices', json: dataIndexPrices });
 
-  // const dataIndexPricesDB = await db.select().from(indexprices)
-  // const dataIndexPrices = dataIndexPricesDB[0]?.json as any[]
-  // await db.delete(indicies)
-
   for (let i = 0; i < indexNames.length; i++) {
     const indexName = String(indexNames[i]);
     const indexAdjustments = await db.select().from(adjustments).where(eq(adjustments.index, indexName));
@@ -51,5 +48,5 @@ export async function updateEverything() {
     console.log({ indexName, status: 'done' });
   }
 
-  // await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
+  await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
 }

@@ -1,9 +1,7 @@
-import { eq } from 'drizzle-orm';
-import { db } from '../db';
-import { indexprices } from '../db/schema';
-import { eod } from './get-from-eod';
-import toUSD from './translate-to-usd';
-import { getInitialIndexDates, addMissingValues, timeout } from './utils';
+import { eod } from '@/lib/functions/get-from-eod';
+import toUSD from '@/lib/functions/translate-to-usd';
+import { getInitialIndexDates, addMissingValues, timeout } from '@/lib/functions/utils';
+import { DataPrices, IndexDay, ResponseHistorical, StocksInfo, StringDate } from '@/types/data-functions';
 
 export default async function getIndexPrices(
   data: StocksInfo[],
@@ -42,7 +40,7 @@ export default async function getIndexPrices(
       counter += 1;
     }
 
-    const indexHistory = getInitialIndexDates(startDate) as any[];
+    const indexHistory = getInitialIndexDates(startDate) as {date: StringDate}[];
 
     currenciesData.forEach((cur) => {
       const i = indexHistory.findIndex((day) => day.date === cur.date);
@@ -50,15 +48,6 @@ export default async function getIndexPrices(
     });
 
     console.log('3/6');
-
-    // const result = await csv.readJSON('indexPricesInitial')
-    // await db.delete(indexprices).where(eq(indexprices.type, 'result'))
-    // await timeout(2000)
-    // await db.insert(indexprices).values({type: 'result', json: result})
-    // await timeout(2000)
-
-    // resData = result
-    // return result
 
     result.forEach((stockHistory: ResponseHistorical[], i: number) => {
       stockHistory.forEach((day) => {
