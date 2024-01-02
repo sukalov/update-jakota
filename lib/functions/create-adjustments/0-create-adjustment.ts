@@ -7,7 +7,7 @@ import filterByMarketCap from '@/lib/functions/create-adjustments/1-filter-by-ma
 import selectStocksPrices from '@/lib/functions/create-adjustments/2-select-stocks-prices';
 import makeFinalAdjustment from '@/lib/functions/create-adjustments/3-make-final-adjustment';
 
-export default async function createAdjustment(dataIndexPrices: DataPrices[], indexName: IndexName, date: StringDate) {
+export default async function createAdjustment(dataIndexPrices: DataPrices[], indexName: IndexName, date: StringDate, newVolume?: number) {
   let stocksInfo: StocksInfo[];
   if (indexName !== 'blue-chips-150' && indexName !== 'mid-small-cap-2000') {
     stocksInfo = (await db
