@@ -1,11 +1,11 @@
 import { eod } from '@/lib/functions/get-from-eod';
 import toUSD from '@/lib/functions/translate-to-usd';
 import { getInitialIndexDates, addMissingValues, timeout } from '@/lib/functions/utils';
-import { DataPrices, IndexDay, ResponseHistorical, StocksInfo, StringDate } from '@/types/data-functions';
+import { CurrenciesPrice, DataPrices, IndexDay, ResponseHistorical, StocksInfo, StringDate } from '@/types/data-functions';
 
 export default async function getIndexPrices(
   data: StocksInfo[],
-  currenciesData: any[],
+  currenciesData: CurrenciesPrice[],
   startDate: string
 ): Promise<DataPrices[]> {
   let resData: any = [];

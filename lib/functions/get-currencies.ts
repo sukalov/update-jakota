@@ -17,7 +17,7 @@ export default async function getCurrenencyPrices(
     if (errors.length > 0) {
       throw errors.map((response: { statusText: string | undefined }) => Error(response.statusText));
     }
-    const json = responses.map((response: { json: () => any }) => response.json());
+    const json = responses.map((response: Response) => response.json());
     const result = (await Promise.all(json)) as Array<ResponseHistorical[]>;
 
     const newData: any[] = [];

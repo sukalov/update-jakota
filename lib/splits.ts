@@ -5,14 +5,19 @@ import getSplits from '@/lib/functions/get-splits';
 import { getArgs } from '@/lib/functions/utils';
 import { eod } from '@/lib/functions/get-from-eod';
 import { csv } from '@/lib/functions/read-write-csv';
-import { StocksInfo } from '@/types/data-functions';
+import { StocksInfo, StringDate } from '@/types/data-functions';
 
 interface StocksInfoExtended extends StocksInfo {
   shares_modern?: number;
 }
 
 const process = getArgs();
-const startDate = String(process.start) || '2022-12-28';
+const stringDateRegEx = /^(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01]))$/;
+let startDate: StringDate;
+
+if (String(process.start).match(stringDateRegEx)) {
+  startDate = process.start as StringDate;
+} else throw new Error(`${process.date} is not a valid date.`);
 
 const dataSharesOutstandingNoDelisted = (await db
   .select()

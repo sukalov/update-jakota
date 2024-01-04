@@ -1,30 +1,27 @@
 import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
-import { DataDividents, IndexDay } from '@/types/data-functions';
+import { DataAdjustments, DataDividents, DataPrices, IndexDay } from '@/types/data-functions';
+import { IndexName } from '../constants/index-names';
 
 export default function getIndexHistory2(
-  dataIndexPrices: any,
-  dataAdjustments: any,
+  dataIndexPrices: DataPrices[],
+  dataAdjustments: DataAdjustments[],
   dataDividents: DataDividents,
-  indexName: any
+  indexName: IndexName
 ) {
   while (new Date(dataIndexPrices[0].date) < new Date('2022-12-31')) {
     dataIndexPrices.shift();
   }
 
-  // return dataIndexPrices
-
-  let index = 100; // ex basePercent
+  let index = 100;
   let index_prev = 100;
-  let total_return = 100; // ex basePercentWithDividents
+  let total_return = 100;
   let total_return_prev = 100;
   let i = 0;
   let indexHistory: IndexDay[] = [];
 
-  //   return dataIndexPrices
-
-  dataIndexPrices.forEach((day: IndexDay, ind: number) => {
-    let day_previous: IndexDay = day;
-    if (ind > 0) day_previous = dataIndexPrices[ind - 1];
+  dataIndexPrices.forEach((day: DataPrices, ind: number) => {
+    let day_previous: IndexDay = day as IndexDay;
+    if (ind > 0) day_previous = dataIndexPrices[ind - 1] as IndexDay;
     const dayDate = new Date(day.date);
     const today = new Date();
     const tomorrow = new Date();
@@ -36,7 +33,7 @@ export default function getIndexHistory2(
     } else {
       checkAdjDate = tomorrow;
     }
-    if (dayDate.toLocaleDateString() === checkAdjDate.toLocaleDateString()) {
+    if (dayDate.toLocaleDateString() === new Date(checkAdjDate).toLocaleDateString()) {
       i += 1;
     }
 
@@ -44,10 +41,8 @@ export default function getIndexHistory2(
     let index_change = 0;
     let index_return_change = 0;
     Object.keys(percents).forEach((symbol) => {
-      let symbol_change = (day[symbol] / day_previous[symbol]) * percents[symbol];
+      let symbol_change = (Number(day[symbol]) / day_previous[symbol]) * percents[symbol];
       if (isNaN(symbol_change)) symbol_change = 0;
-      // if (isNaN(symbol_change)) console.log(symbol, percents[symbol], day_previous[symbol], day[symbol])
-      // if (symbol === '420770.KQ') console.log({symbol}, percents[symbol], day_previous[symbol], day[symbol], {index_change, symbol_change, ADJ: dataAdjustments[i].date})
       index_change += symbol_change;
       let symbol_return_change;
       if (
@@ -55,10 +50,8 @@ export default function getIndexHistory2(
         dataDividents[day.date]?.[symbol] !== undefined &&
         percents[symbol] !== undefined
       ) {
-        // console.log(day.date, symbol, dataDividents[day.date][symbol])
-        // dividents += (dataDividents[day.date]?.[symbol] ?? 0) * percents[symbol];
         symbol_return_change =
-          ((day[symbol] + dataDividents[day.date]?.[symbol]) / day_previous[symbol]) * percents[symbol] ??
+          ((Number(day[symbol]) + dataDividents[day.date]?.[symbol]) / day_previous[symbol]) * percents[symbol] ??
           symbol_change;
       } else {
         symbol_return_change = symbol_change;
@@ -66,12 +59,7 @@ export default function getIndexHistory2(
       index_return_change += symbol_return_change;
     });
 
-    // if (ind === 0 || switchDay) {
-    //   baseIndexPrice = index_price;
-    //   switchDay = false;
-    // }
     index = index_prev * index_change;
-    // console.log(ind, index_prev, index_change)
     index_prev = index;
     total_return = total_return_prev * index_return_change;
     total_return_prev = total_return;
@@ -79,7 +67,7 @@ export default function getIndexHistory2(
     indexHistory.push({
       date: day.date,
       name: indexName,
-      adjustment: dataAdjustments[i].date.toISOString().slice(0, 10),
+      adjustment: new Date(dataAdjustments[i].date).toISOString().slice(0, 10),
       index,
       total_return,
     });
