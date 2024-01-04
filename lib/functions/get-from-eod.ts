@@ -1,4 +1,4 @@
-import { ResponseFundamental, ResponseHistorical } from "@/types/data-functions";
+import { ResponseFundamental, ResponseHistorical } from '@/types/data-functions';
 
 const url_eod = 'https://eodhistoricaldata.com/api/eod/';
 const url_fundamental = 'https://eodhistoricaldata.com/api/fundamentals/';

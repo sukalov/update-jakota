@@ -22,18 +22,21 @@ export const stocks_info = mysqlTable('stocks_info', {
   is_delisted: boolean('is_delisted'),
 });
 
-export const adjustments = mysqlTable('adjustments', {
-  id: serial('id').primaryKey(),
-  date: date('date').notNull(),
-  index: varchar('index', {length: 255}).notNull().default(''),
-  capitalizations: json('capitalizations').notNull(),
-  original_percents: json('original_percents').notNull(),
-  percents: json('percents').notNull(),
-  is_quartile: boolean('is_quartile'),
-},
+export const adjustments = mysqlTable(
+  'adjustments',
+  {
+    id: serial('id').primaryKey(),
+    date: date('date').notNull(),
+    index: varchar('index', { length: 255 }).notNull().default(''),
+    capitalizations: json('capitalizations').notNull(),
+    original_percents: json('original_percents').notNull(),
+    percents: json('percents').notNull(),
+    is_quartile: boolean('is_quartile'),
+  },
   (t) => ({
     unq: unique().on(t.date, t.index),
-  }));
+  })
+);
 
 export const indicies = mysqlTable('indicies', {
   id: serial('id').primaryKey(),

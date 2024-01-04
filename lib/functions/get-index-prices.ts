@@ -40,7 +40,7 @@ export default async function getIndexPrices(
       counter += 1;
     }
 
-    const indexHistory = getInitialIndexDates(startDate) as {date: StringDate}[];
+    const indexHistory = getInitialIndexDates(startDate) as { date: StringDate }[];
 
     currenciesData.forEach((cur) => {
       const i = indexHistory.findIndex((day) => day.date === cur.date);
@@ -62,11 +62,8 @@ export default async function getIndexPrices(
     console.log('4/6');
 
     const completeData = addMissingValues(indexHistory);
-    // const completeData = indexHistory;
 
     console.log('5/6');
-
-    // return {completeData, data, currenciesData}
 
     completeData.forEach((day: IndexDay, i: number) => {
       data.forEach((stock: StocksInfo) => {

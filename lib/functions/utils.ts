@@ -133,5 +133,5 @@ export function getArgs() {
 }
 
 export function isFirstJanuary(date: Date) {
-  return (date.getMonth() === 0 && date.getDate() === 1);
+  return date.getMonth() === 0 && date.getDate() === 1;
 }

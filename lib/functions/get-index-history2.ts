@@ -98,12 +98,13 @@ export default function getIndexHistory2(
       weekend = [5, 6];
   }
 
-  const indexHistoryNoWeekends = indexHistory.filter(
-    (day, i) => {
-      const isItFirstJanuary = isFirstJanuary(new Date(new Date(day.date).toLocaleString('en-US', { timeZone: 'UTC' })))
-      return i === 0 || (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1] && !isItFirstJanuary)
-    }
-  );
+  const indexHistoryNoWeekends = indexHistory.filter((day, i) => {
+    const isItFirstJanuary = isFirstJanuary(new Date(new Date(day.date).toLocaleString('en-US', { timeZone: 'UTC' })));
+    return (
+      i === 0 ||
+      (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1] && !isItFirstJanuary)
+    );
+  });
 
   return indexHistoryNoWeekends;
 }
