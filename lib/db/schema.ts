@@ -27,7 +27,7 @@ export const adjustments = mysqlTable(
   {
     id: serial('id').primaryKey(),
     date: date('date').notNull(),
-    index: varchar('index', { length: 255 }).notNull().default(''),
+    index: varchar('index', { length: 20 }).notNull().default(''),
     capitalizations: json('capitalizations').notNull(),
     original_percents: json('original_percents').notNull(),
     percents: json('percents').notNull(),
