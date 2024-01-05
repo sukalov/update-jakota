@@ -22,9 +22,9 @@
   "scripts": {
     "db:push": "bunx drizzle-kit push:mysql --config=drizzle.config.ts",
     "start": "bun run index.ts --zone=US",
-    "repeat": "bun run repeat.ts --zone=US",
+    "repeat": "bun run lib/repeat.ts --zone=US",
     "splits": "bun run lib/splits.ts",
-    "new-adjustments": "bun run lib/new-adjustments.ts",
-    "new-volume": "bun run lib/new-index-volume.ts"
+    "new-adjustments": "bun run lib/functions/create-adjustments/new-adjustments.ts",
+    "new-volume": "bun run lib/functions/index-volume/new-index-volume.ts"
   }
 }

@@ -1,8 +1,5 @@
-import { DataPrices, StringDate } from '@/types/data-functions';
 import { db } from '@/lib/db';
-import { adjustments, indexnames, indexprices } from '@/lib/db/schema';
-import createAdjustment from '@/lib/functions/create-adjustments/0-create-adjustment';
-import { getArgs } from '@/lib/functions/utils';
+import { indexnames } from '@/lib/db/schema';
 import { IndexName } from '@/lib/constants/index-names';
 import newAdjustments from '@/lib/functions/create-adjustments';
 import inquirer from 'inquirer';
