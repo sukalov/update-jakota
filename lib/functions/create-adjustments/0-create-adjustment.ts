@@ -1,5 +1,5 @@
-import { IndexName, indexNames } from '@/lib/constants/index-names';
-import { adjustments, stocks_info } from '@/lib/db/schema';
+import { IndexName } from '@/lib/constants/index-names';
+import { indexnames, stocks_info } from '@/lib/db/schema';
 import { db } from '@/lib/db';
 import { isNull, sql } from 'drizzle-orm';
 import { DataPrices, StocksInfo, StocksInfoExtended, StringDate } from '@/types/data-functions';
@@ -24,9 +24,12 @@ export default async function createAdjustment(
   } else {
     stocksInfo = (await db.select().from(stocks_info).where(isNull(stocks_info.is_delisted))) as StocksInfo[];
   }
+  let indexVolume: number
+  if (newVolume) indexVolume = newVolume
+  else indexVolume = Number(indexName.split('-').at(-1));
 
   const selectedStocksPrices = (await selectStocksPrices(dataIndexPrices, stocksInfo, indexName, date)) as DataPrices;
-  const filteredMarketCaps = filterByMarketCap(selectedStocksPrices, stocksInfo, indexName) as StocksInfoExtended[];
+  const filteredMarketCaps = filterByMarketCap(selectedStocksPrices, stocksInfo, indexName, indexVolume) as StocksInfoExtended[];
   const finalAdjustment = makeFinalAdjustment(filteredMarketCaps, indexName, date);
 
   return finalAdjustment;

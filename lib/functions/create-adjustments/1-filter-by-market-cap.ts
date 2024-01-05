@@ -1,8 +1,7 @@
 import { IndexName } from '@/lib/constants/index-names';
 import { DataPrices, StocksInfo } from '@/types/data-functions';
 
-export default function filterByMarketCap(stocksPrices: DataPrices, stocksInfo: StocksInfo[], indexName: IndexName) {
-  const indexVolume = Number(indexName.split('-').at(-1));
+export default function filterByMarketCap(stocksPrices: DataPrices, stocksInfo: StocksInfo[], indexName: IndexName, indexVolume: number) {
   let filteredStocksInfo = JSON.parse(JSON.stringify(stocksInfo)) as StocksInfo[];
   filteredStocksInfo.forEach((stock) => {
     stock.market_cap = Number(stocksPrices[stock.symbol]) * stock.shares;
