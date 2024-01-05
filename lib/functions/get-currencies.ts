@@ -3,7 +3,7 @@ import { eod } from '@/lib/functions/get-from-eod';
 import { addMissingValues, getInitialIndexDates } from '@/lib/functions/utils';
 import { currencies } from '@/lib/db/schema';
 import { sql } from 'drizzle-orm';
-import { CurrenciesPrice, CurrenciesPriceDB, CurrenciesPriceExtended, ResponseHistorical, StringDate } from '@/types/data-functions';
+import { CurrenciesPrice, CurrenciesPriceDB, ResponseHistorical, StringDate } from '@/types/data-functions';
 
 export default async function getCurrenencyPrices(
   startDate: StringDate = '2022-12-28'
@@ -17,7 +17,7 @@ export default async function getCurrenencyPrices(
     if (errors.length > 0) {
       throw errors.map((response: Response) => Error(response.statusText));
     }
-    const json = responses.map((response: { json: () => any }) => response.json());
+    const json = responses.map((response: Response) => response.json());
     const result = (await Promise.all(json)) as Array<ResponseHistorical[]>;
 
     const newData: CurrenciesPrice[] = [];

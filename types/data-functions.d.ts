@@ -123,7 +123,7 @@ interface DividentsDB {
 }
 
 interface CurrenciesPrice {
-  date: Date | string;
+  date: StringDate;
   KRW: number;
   TWD: number;
   JPY: number;
@@ -202,5 +202,5 @@ interface Generic {
 }
 
 interface DataItem {
-  [key: string]: number | null | undefined;
+  [key: string]: number | null | undefined | string | Date;
 }

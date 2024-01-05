@@ -1,5 +1,4 @@
 import { ResponseDividents, Splits, StocksInfo, StringDate } from '@/types/data-functions';
-import { currencies } from '@/lib/db/schema';
 import { eod } from '@/lib/functions/get-from-eod';
 import { timeout } from '@/lib/functions/utils';
 

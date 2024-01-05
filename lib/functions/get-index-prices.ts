@@ -1,11 +1,11 @@
 import { eod } from '@/lib/functions/get-from-eod';
 import toUSD from '@/lib/functions/translate-to-usd';
 import { getInitialIndexDates, addMissingValues, timeout } from '@/lib/functions/utils';
-import { DataPrices, IndexDay, ResponseHistorical, StocksInfo, StringDate } from '@/types/data-functions';
+import { CurrenciesPrice, DataPrices, ResponseHistorical, StocksInfo, StringDate } from '@/types/data-functions';
 
 export default async function getIndexPrices(
   data: StocksInfo[],
-  currenciesData: any[],
+  currenciesData: CurrenciesPrice[],
   startDate: StringDate
 ): Promise<DataPrices[]> {
 
@@ -61,11 +61,11 @@ export default async function getIndexPrices(
     });
     console.log('4/6');
 
-    const completeData = addMissingValues(indexHistory);
+    const completeData = addMissingValues(indexHistory) as DataPrices[];
 
     console.log('5/6');
 
-    completeData.forEach((day: IndexDay, i: number) => {
+    completeData.forEach((day: DataPrices, i: number) => {
       data.forEach((stock: StocksInfo) => {
         day[stock.symbol] = toUSD(Number(day[stock.symbol]), stock.currency, day.date, currenciesData);
       });

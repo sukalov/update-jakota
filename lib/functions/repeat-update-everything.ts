@@ -1,4 +1,3 @@
-import getIndexPrices from '@/lib/functions/get-index-prices';
 import { initialSteps } from '@/lib/functions/update-currencies-data';
 import { db } from '@/lib/db';
 import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '@/lib/db/schema';
@@ -6,7 +5,7 @@ import { eq, isNull } from 'drizzle-orm';
 import { indexNames } from '@/lib/constants/index-names.ts';
 import getIndexHistory2 from '@/lib/functions/get-index-history2';
 import { updateMarketCaps } from '@/lib/functions/update-market-caps';
-import { CurrenciesPrice, CurrenciesPriceDB, DataAdjustments, DataDividents, DataPrices, DividentsDB, IndexDay, IndexDayDB, StocksInfo } from '@/types/data-functions';
+import { DataAdjustments, DataDividents, DataPrices, DividentsDB, IndexDay, IndexDayDB, StocksInfo } from '@/types/data-functions';
 
 export async function repeatUpdateEverything() {
   await initialSteps();
@@ -16,7 +15,6 @@ export async function repeatUpdateEverything() {
     .from(stocks_info)
     .where(isNull(stocks_info.is_delisted))) as StocksInfo[];
 
-  const currData = (await db.select().from(currencies)) as CurrenciesPriceDB[];
   const dbDataDividents = await db.select().from(dividents) as DividentsDB[];
   const dataDividents = dbDataDividents.reduce((prev: DataDividents, curr: DividentsDB) => {
     const date = curr.date.toISOString().slice(0, 10);
