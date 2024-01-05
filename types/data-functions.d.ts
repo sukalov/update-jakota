@@ -123,14 +123,7 @@ interface DividentsDB {
 }
 
 interface CurrenciesPrice {
-  date: StringDate ;
-  KRW: number;
-  TWD: number;
-  JPY: number;
-}
-
-interface CurrenciesPriceDB {
-  date: Date;
+  date: Date | string;
   KRW: number;
   TWD: number;
   JPY: number;
