@@ -1,13 +1,14 @@
 import { initialSteps } from '@/lib/functions/update-currencies-data';
 import { db } from '@/lib/db';
-import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '@/lib/db/schema';
+import { stocks_info, adjustments, indicies, dividents, indexprices, indexnames } from '@/lib/db/schema';
 import { eq, isNull } from 'drizzle-orm';
-import { indexNames } from '@/lib/constants/index-names.ts';
+import { IndexName } from '@/lib/constants/index-names.ts';
 import getIndexHistory2 from '@/lib/functions/get-index-history2';
 import { updateMarketCaps } from '@/lib/functions/update-market-caps';
 import { DataAdjustments, DataDividents, DataPrices, DividentsDB, IndexDay, IndexDayDB, StocksInfo } from '@/types/data-functions';
 
 export async function repeatUpdateEverything() {
+  const indexNames = (await db.select().from(indexnames)).map(el => el.id) as IndexName[]
   await initialSteps();
   let newData = [] as IndexDayDB[];
   const dataSharesOutstandingNoDelisted = (await db

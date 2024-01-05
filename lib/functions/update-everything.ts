@@ -1,18 +1,18 @@
 import getIndexPrices from '@/lib/functions/get-index-prices';
 import { initialSteps } from '@/lib/functions/update-currencies-data';
 import { db } from '@/lib/db';
-import { stocks_info, currencies, adjustments, indicies, dividents, indexprices } from '@/lib/db/schema';
+import { stocks_info, currencies, adjustments, indicies, dividents, indexprices, indexnames } from '@/lib/db/schema';
 import { eq, isNull } from 'drizzle-orm';
-import { indexNames } from '@/lib/constants/index-names.ts';
 import { timeout } from '@/lib/functions/utils';
 import getIndexHistory2 from '@/lib/functions/get-index-history2';
 import { updateMarketCaps } from '@/lib/functions/update-market-caps';
 import { CurrenciesPrice, CurrenciesPriceDB, DataAdjustments, DataDividents, DividentsDB, IndexDay, IndexDayDB, StocksInfo, StringDate } from '@/types/data-functions';
+import { IndexName } from '@/lib/constants/index-names';
 
 export async function updateEverything() {
   await initialSteps();
   let newData = [] as IndexDayDB[];
-
+  const indexNames = (await db.select().from(indexnames)).map(el => el.id) as IndexName[]
   const dataSharesOutstanding = (await db.select().from(stocks_info)) as StocksInfo[];
   const dataSharesOutstandingNoDelisted = (await db
     .select()
