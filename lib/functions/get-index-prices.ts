@@ -8,7 +8,6 @@ export default async function getIndexPrices(
   currenciesData: CurrenciesPrice[],
   startDate: StringDate
 ): Promise<DataPrices[]> {
-
   let resData: DataPrices[] = [];
   try {
     const batchSize = 50;

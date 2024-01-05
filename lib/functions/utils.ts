@@ -1,4 +1,4 @@
-import { CurrenciesPrice, CurrenciesPriceDB, DataItem } from "@/types/data-functions";
+import { CurrenciesPrice, CurrenciesPriceDB, DataItem } from '@/types/data-functions';
 
 export function getInitialIndexDates(startDate: string) {
   const getDaysArray = (start: string) => {

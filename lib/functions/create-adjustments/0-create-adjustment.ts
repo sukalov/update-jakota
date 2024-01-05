@@ -24,12 +24,17 @@ export default async function createAdjustment(
   } else {
     stocksInfo = (await db.select().from(stocks_info).where(isNull(stocks_info.is_delisted))) as StocksInfo[];
   }
-  let indexVolume: number
-  if (newVolume) indexVolume = newVolume
+  let indexVolume: number;
+  if (newVolume) indexVolume = newVolume;
   else indexVolume = Number(indexName.split('-').at(-1));
 
   const selectedStocksPrices = (await selectStocksPrices(dataIndexPrices, stocksInfo, indexName, date)) as DataPrices;
-  const filteredMarketCaps = filterByMarketCap(selectedStocksPrices, stocksInfo, indexName, indexVolume) as StocksInfoExtended[];
+  const filteredMarketCaps = filterByMarketCap(
+    selectedStocksPrices,
+    stocksInfo,
+    indexName,
+    indexVolume
+  ) as StocksInfoExtended[];
   const finalAdjustment = makeFinalAdjustment(filteredMarketCaps, indexName, date);
 
   return finalAdjustment;

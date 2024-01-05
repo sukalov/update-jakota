@@ -5,10 +5,8 @@ import { currencies } from '@/lib/db/schema';
 import { sql } from 'drizzle-orm';
 import { CurrenciesPrice, CurrenciesPriceDB, ResponseHistorical, StringDate } from '@/types/data-functions';
 
-export default async function getCurrenencyPrices(
-  startDate: StringDate = '2022-12-28'
-) {
-  const currenciesToCollect: Array<'KRW' | 'JPY' | 'TWD'> = ['KRW', 'JPY', 'TWD']
+export default async function getCurrenencyPrices(startDate: StringDate = '2022-12-28') {
+  const currenciesToCollect: Array<'KRW' | 'JPY' | 'TWD'> = ['KRW', 'JPY', 'TWD'];
   try {
     const requests = currenciesToCollect.map((stock) => eod.historicalAsync(`${stock}.FOREX`, startDate));
     const responses = await Promise.all(requests);
@@ -25,10 +23,10 @@ export default async function getCurrenencyPrices(
     result.forEach((data, i) => {
       data.forEach((day) => {
         let defaultPrices = {
-            KRW: 1,
-            JPY: 1,
-            TWD: 1
-          }
+          KRW: 1,
+          JPY: 1,
+          TWD: 1,
+        };
         const currencyName = currenciesToCollect[i];
         if (i === 0) {
           newData.push({
@@ -53,7 +51,7 @@ export default async function getCurrenencyPrices(
     });
 
     let newData2 = addMissingValues(indexHistory) as CurrenciesPriceDB[];
-    newData2.forEach(day => day.date = new Date(day.date))
+    newData2.forEach((day) => (day.date = new Date(day.date)));
 
     await db.delete(currencies);
     await db

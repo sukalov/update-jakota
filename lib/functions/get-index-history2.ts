@@ -1,6 +1,6 @@
 import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
 import { DataAdjustments, DataDividents, DataPrices, IndexDay } from '@/types/data-functions';
-import { IndexName } from '../constants/index-names';
+import { IndexName } from '@/lib/constants/index-names';
 
 export default function getIndexHistory2(
   dataIndexPrices: DataPrices[],
@@ -51,8 +51,8 @@ export default function getIndexHistory2(
         percents[symbol] !== undefined
       ) {
         symbol_return_change =
-          ((Number(day[symbol]) + dataDividents[day.date]?.[symbol]) / Number(day_previous[symbol])) * percents[symbol] ??
-          symbol_change;
+          ((Number(day[symbol]) + dataDividents[day.date]?.[symbol]) / Number(day_previous[symbol])) *
+            percents[symbol] ?? symbol_change;
       } else {
         symbol_return_change = symbol_change;
       }
