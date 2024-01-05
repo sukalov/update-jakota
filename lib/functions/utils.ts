@@ -1,4 +1,4 @@
-import { DataItem } from "@/types/data-functions";
+import { CurrenciesPriceDB, DataItem } from "@/types/data-functions";
 
 export function getInitialIndexDates(startDate: string) {
   const getDaysArray = (start: string) => {
@@ -15,8 +15,8 @@ export function getInitialIndexDates(startDate: string) {
   return dayList;
 }
 
-export function addMissingValues(data: DataItem[]): DataItem[] {
-  const keys: string[] = data.reduce((prevKeys: string[], curr: DataItem) => {
+export function addMissingValues(data: any[]): any[] {
+  const keys: string[] = data.reduce((prevKeys: string[], curr) => {
     const arr = [...prevKeys];
     Object.keys(curr).forEach((key) => {
       if (!arr.includes(key)) arr.push(key);
@@ -25,7 +25,7 @@ export function addMissingValues(data: DataItem[]): DataItem[] {
   }, []);
 
   let newData: DataItem[] = [];
-  data.forEach((obj: DataItem, i: number) => {
+  data.forEach((obj: any, i: number) => {
     const newObj: DataItem = {};
     const prevDay = newData[i - 1];
     keys.forEach((key) => {

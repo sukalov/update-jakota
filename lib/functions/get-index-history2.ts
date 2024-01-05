@@ -22,8 +22,8 @@ export default function getIndexHistory2(
 
   //   return dataIndexPrices
 
-  dataIndexPrices.forEach((day: IndexDay, ind: number) => {
-    let day_previous: IndexDay = day;
+  dataIndexPrices.forEach((day: any, ind: number) => {
+    let day_previous: any = day;
     if (ind > 0) day_previous = dataIndexPrices[ind - 1];
     const dayDate = new Date(day.date);
     const today = new Date();
@@ -44,7 +44,7 @@ export default function getIndexHistory2(
     let index_change = 0;
     let index_return_change = 0;
     Object.keys(percents).forEach((symbol) => {
-      let symbol_change = (day[symbol] / day_previous[symbol]) * percents[symbol];
+      let symbol_change = (Number(day[symbol]) / Number(day_previous[symbol])) * percents[symbol];
       if (isNaN(symbol_change)) symbol_change = 0;
       // if (isNaN(symbol_change)) console.log(symbol, percents[symbol], day_previous[symbol], day[symbol])
       // if (symbol === '420770.KQ') console.log({symbol}, percents[symbol], day_previous[symbol], day[symbol], {index_change, symbol_change, ADJ: dataAdjustments[i].date})

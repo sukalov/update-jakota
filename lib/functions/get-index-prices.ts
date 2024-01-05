@@ -6,7 +6,7 @@ import { DataPrices, IndexDay, ResponseHistorical, StocksInfo, StringDate } from
 export default async function getIndexPrices(
   data: StocksInfo[],
   currenciesData: any[],
-  startDate: string
+  startDate: StringDate
 ): Promise<DataPrices[]> {
 
   let resData: DataPrices[] = [];
@@ -67,7 +67,7 @@ export default async function getIndexPrices(
 
     completeData.forEach((day: IndexDay, i: number) => {
       data.forEach((stock: StocksInfo) => {
-        day[stock.symbol] = toUSD(day[stock.symbol], stock.currency, day.date, currenciesData);
+        day[stock.symbol] = toUSD(Number(day[stock.symbol]), stock.currency, day.date, currenciesData);
       });
     });
 

@@ -8,7 +8,7 @@ import { indexNames } from '@/lib/constants/index-names.ts';
 import { timeout } from '@/lib/functions/utils';
 import getIndexHistory2 from '@/lib/functions/get-index-history2';
 import { updateMarketCaps } from '@/lib/functions/update-market-caps';
-import { CurrenciesPrice, CurrenciesPriceDB, DataAdjustments, DataDividents, DividentsDB, IndexDay, IndexDayDB, StocksInfo, StringDate } from '@/types/data-functions';
+import { CurrenciesPrice, CurrenciesPriceDB, CurrenciesPriceExtended, DataAdjustments, DataDividents, DividentsDB, IndexDay, IndexDayDB, StocksInfo, StringDate } from '@/types/data-functions';
 
 export async function updateEverything() {
   await initialSteps();

@@ -129,6 +129,13 @@ interface CurrenciesPrice {
   JPY: number;
 }
 
+interface CurrenciesPriceDB {
+  date: Date;
+  KRW: number;
+  TWD: number;
+  JPY: number;
+}
+
 interface CurrenciesPriceExtended {
   date: StringDate ;
   KRW?: number;
