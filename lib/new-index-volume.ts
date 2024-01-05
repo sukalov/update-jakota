@@ -21,8 +21,8 @@ const questions = [
     message: 'New volume of the index:',
     validate: (input: any) => {
       if (input === '' || isNaN(Number(input))) {
-        throw Error('Please provide a valid number greater then 0')
-    } else return true;
+        throw Error('Please provide a valid number greater then 0');
+      } else return true;
     },
   },
   {
@@ -52,4 +52,4 @@ const confirm = await inquirer.prompt({
 });
 
 if (confirm.confirm) await changeIndexVolume(answers.index, answers.volume, answers.date);
-console.log(`${!confirm.confirm ? 'operation aborted' : 'we\'re done!'}`);
+console.log(`${!confirm.confirm ? 'operation aborted' : "we're done!"}`);

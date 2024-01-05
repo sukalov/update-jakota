@@ -46,5 +46,4 @@ const confirm = await inquirer.prompt({
 });
 
 if (confirm.confirm) await newAdjustments(answers.indicies, answers.date);
-console.log(`${!confirm.confirm ? 'operation aborted' : 'we\'re done!'}`);
-
+console.log(`${!confirm.confirm ? 'operation aborted' : "we're done!"}`);
