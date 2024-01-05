@@ -16,39 +16,40 @@ const questions = [
     choices: indexNames,
   },
   {
-    type: 'number',
+    type: 'input',
     name: 'volume',
     message: 'New volume of the index:',
+    validate: (input: any) => {
+      if (input === '' || isNaN(Number(input))) {
+        throw Error('Please provide a valid number greater then 0')
+    } else return true;
+    },
   },
   {
     type: /^(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01]))$/,
     name: 'date',
     message: 'And finally, type the date for the new adjustment (format YYYY-MM-DD):',
+    validate: (input: string) => {
+      if (stringDateRegEx.test(input)) {
+        return true;
+      }
+      throw Error('Please provide a valid date in YYYY-MM-DD format.');
+    },
   },
 ];
 
-let volume = { volume: NaN };
-let date: { date: StringDate } = { date: '0000-00-00' };
-const index = await inquirer.prompt([questions[0]]);
+const answers = await inquirer.prompt(questions);
 
-while (isNaN(volume.volume)) {
-  volume = await inquirer.prompt([questions[1]]);
-}
-
-while (date.date.match(stringDateRegEx) == null) {
-  date = (await inquirer.prompt([questions[2]])) as { date: StringDate };
-}
-
-const nameParts = index.index.split('-');
+const nameParts = answers.index.split('-');
 nameParts.pop();
 const indexName = nameParts.join('-');
-const localeDate = new Date(date.date).toUTCString().slice(0, 16);
+const localeDate = new Date(answers.date).toUTCString().slice(0, 16);
 
 const confirm = await inquirer.prompt({
   type: 'confirm',
   name: 'confirm',
-  message: `So, you want to turn \x1b[33m${index.index}\x1b[0m into \x1b[33m${indexName}-${volume.volume}\x1b[0m on \x1b[32m${localeDate}\x1b[0m`,
+  message: `So, you want to turn \x1b[33m${answers.index}\x1b[0m into \x1b[33m${indexName}-${answers.volume}\x1b[0m on \x1b[32m${localeDate}\x1b[0m`,
 });
 
-if (confirm.confirm) await changeIndexVolume(index.index, volume.volume, date.date);
-console.log(`we're done!`);
+if (confirm.confirm) await changeIndexVolume(answers.index, answers.volume, answers.date);
+console.log(`${!confirm.confirm ? 'operation aborted' : 'we\'re done!'}`);

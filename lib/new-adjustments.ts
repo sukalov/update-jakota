@@ -19,28 +19,32 @@ const questions = [
     default: indexNames,
   },
   {
-    type: 'string',
+    type: /^(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01]))$/,
     name: 'date',
-    message: 'And now, type the date for the new adjustments (format YYYY-MM-DD):',
+    message: 'And type the date for the new adjustments (format YYYY-MM-DD):',
+    validate: (input: string) => {
+      if (stringDateRegEx.test(input)) {
+        return true;
+      }
+      throw Error('Please provide a valid date in YYYY-MM-DD format.');
+    },
   },
 ];
 
-const answer1 = await inquirer.prompt([questions[0]]);
-let answer2: { date: StringDate } = { date: '0000-00-00' };
+const answers = await inquirer.prompt(questions);
 
-if (answer1.indicies.length === 0) throw 'No indicies selected';
+if (answers.indicies.length === 0) throw 'No indicies selected';
 
-while (answer2.date.match(stringDateRegEx) == null) {
-  answer2 = (await inquirer.prompt([questions[1]])) as { date: StringDate };
-}
-const localeDate = new Date(answer2.date).toUTCString().slice(0, 16);
+const localeDate = new Date(answers.date).toUTCString().slice(0, 16);
 
 const confirm = await inquirer.prompt({
   type: 'confirm',
   name: 'confirm',
-  message: `So, you want to make adjustment(s) for \x1b[33m${answer1.indicies.join(
+  message: `So, you want to make adjustment(s) for \x1b[33m${answers.indicies.join(
     ', '
   )}\x1b[0m on \x1b[32m${localeDate}\x1b[0m`,
 });
 
-if (confirm.confirm) await newAdjustments(answer1.indicies, answer2.date);
+if (confirm.confirm) await newAdjustments(answers.indicies, answers.date);
+console.log(`${!confirm.confirm ? 'operation aborted' : 'we\'re done!'}`);
+
