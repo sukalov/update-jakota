@@ -1,9 +1,9 @@
-import { ResponseDividents, StocksInfo } from '@/types/data-functions';
+import { ResponseDividents, Splits, StocksInfo, StringDate } from '@/types/data-functions';
 import { currencies } from '@/lib/db/schema';
 import { eod } from '@/lib/functions/get-from-eod';
 import { timeout } from '@/lib/functions/utils';
 
-export default async function getSplits(data: StocksInfo[], startDate: string) {
+export default async function getSplits(data: StocksInfo[], startDate: StringDate) {
   try {
     const batchSize = 50;
     const requests = [];
@@ -34,7 +34,7 @@ export default async function getSplits(data: StocksInfo[], startDate: string) {
       counter += 1;
     }
 
-    let newData: any[] = [];
+    let newData: Splits[] = [];
     result.forEach((splits, i) => {
       if (splits.length) {
         const stockSplits = {

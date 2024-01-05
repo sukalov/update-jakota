@@ -5,7 +5,7 @@ import getSplits from '@/lib/functions/get-splits';
 import { getArgs } from '@/lib/functions/utils';
 import { eod } from '@/lib/functions/get-from-eod';
 import { csv } from '@/lib/functions/read-write-csv';
-import { StocksInfo, StringDate } from '@/types/data-functions';
+import { Splits, StocksInfo, StringDate } from '@/types/data-functions';
 
 interface StocksInfoExtended extends StocksInfo {
   shares_modern?: number;
@@ -24,7 +24,7 @@ const dataSharesOutstandingNoDelisted = (await db
   .from(stocks_info)
   .where(isNull(stocks_info.is_delisted))) as StocksInfo[];
 
-const splits = (await getSplits(dataSharesOutstandingNoDelisted, startDate)) as [{ symbol: string }];
+const splits = (await getSplits(dataSharesOutstandingNoDelisted, startDate)) as Splits[];
 const stocksForCheck: Array<string> = splits.map((el: { symbol: string }) => el.symbol);
 const stocksWithSplits = (await db
   .select()

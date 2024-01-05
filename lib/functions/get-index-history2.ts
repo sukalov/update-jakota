@@ -1,5 +1,5 @@
 import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
-import { DataAdjustments, DataDividents, DataPrices, IndexDay } from '@/types/data-functions';
+import { DataAdjustments, DataDividents, DataPrices, IndexDay, IndexDayDB } from '@/types/data-functions';
 import { IndexName } from '../constants/index-names';
 
 export default function getIndexHistory2(
@@ -7,7 +7,7 @@ export default function getIndexHistory2(
   dataAdjustments: DataAdjustments[],
   dataDividents: DataDividents,
   indexName: IndexName
-) {
+): IndexDay[] {
   while (new Date(dataIndexPrices[0].date) < new Date('2022-12-31')) {
     dataIndexPrices.shift();
   }

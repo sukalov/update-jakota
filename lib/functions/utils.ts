@@ -1,3 +1,5 @@
+import { DataItem } from "@/types/data-functions";
+
 export function getInitialIndexDates(startDate: string) {
   const getDaysArray = (start: string) => {
     let dates = [];
@@ -13,41 +15,33 @@ export function getInitialIndexDates(startDate: string) {
   return dayList;
 }
 
-export function addMissingValues(data: any) {
-  const keys = data.reduce((prev: string[], curr: { [symbol: string]: number }) => {
-    const arr = [...prev];
+export function addMissingValues(data: DataItem[]): DataItem[] {
+  const keys: string[] = data.reduce((prevKeys: string[], curr: DataItem) => {
+    const arr = [...prevKeys];
     Object.keys(curr).forEach((key) => {
       if (!arr.includes(key)) arr.push(key);
     });
     return arr;
   }, []);
 
-  let newData: any[] = [];
-  data.forEach((obj: any, i: number) => {
-    const newObj = {} as any;
+  let newData: DataItem[] = [];
+  data.forEach((obj: DataItem, i: number) => {
+    const newObj: DataItem = {};
     const prevDay = newData[i - 1];
-    keys.forEach((key: any) => {
+    keys.forEach((key) => {
       if (prevDay === undefined) {
-        if (obj[key] === undefined || obj[key] === null) {
-          newObj[key] = 0;
-        } else {
-          newObj[key] = obj[key];
-        }
+        newObj[key] = obj[key] === undefined || obj[key] === null ? 0 : obj[key];
       } else {
-        if (obj[key] === undefined || obj[key] === null) {
-          // console.log({code: 'BAD', objKEY: obj[key], key, date: obj.date})
-          newObj[key] = prevDay[key];
-        } else {
-          newObj[key] = obj[key];
-        }
+        newObj[key] = obj[key] === undefined || obj[key] === null ? prevDay[key] : obj[key];
       }
     });
     newData.push(newObj);
   });
+
   return newData;
 }
 
-export function findUnique(array1: any[], array2: any[]): [string[], string[]] {
+export function findUnique(array1: string[], array2: string[]): [string[], string[]] {
   const uniqueInArray1 = [];
   const uniqueInArray2 = [];
 
@@ -66,7 +60,7 @@ export function findUnique(array1: any[], array2: any[]): [string[], string[]] {
   return [uniqueInArray1, uniqueInArray2];
 }
 
-export function timeout(ms: any) {
+export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 

@@ -69,7 +69,7 @@ interface ResponseFundamental {
 }
 
 interface ResponseHistorical {
-  date: string;
+  date: StringDate;
   open: number;
   high: number;
   low: number;
@@ -93,7 +93,7 @@ interface DataSharesInitialDay {
   initial_MC_USD: number;
   share: number;
   share_adj?: number;
-  [otherOptions: string]: any;
+  [otherOptions: string]: string;
 }
 
 interface DataShareAdjusted {
@@ -106,7 +106,7 @@ interface DataShareAdjusted {
   initial_MC_USD: number;
   share: number;
   share_adj: number;
-  [otherOptions: string]: any;
+  [otherOptions: string]: string | number;
 }
 
 interface DataDividents {
@@ -123,10 +123,25 @@ interface DividentsDB {
 }
 
 interface CurrenciesPrice {
-  date: Date | StringDate;
+  date: StringDate ;
   KRW: number;
   TWD: number;
   JPY: number;
+}
+
+interface CurrenciesPriceDB {
+  date: Date;
+  KRW: number;
+  TWD: number;
+  JPY: number;
+}
+
+interface CurrenciesPriceExtended {
+  date: StringDate ;
+  KRW?: number;
+  TWD?: number;
+  JPY?: number;
+  [x: string]: number;
 }
 
 interface IndexDay {
@@ -135,7 +150,15 @@ interface IndexDay {
   adjustment: string | undefined;
   index: number | undefined;
   total_return: number | undefined;
-  [otherOptions: string]: any;
+  [otherOptions: string]: string | number;
+}
+
+interface IndexDayDB {
+  date: Date;
+  name: string;
+  adjustment: Date;
+  index: number;
+  total_return: number;
 }
 
 interface DataTotal {
@@ -159,7 +182,7 @@ interface DataPrices {
 
 interface DataAdjustments {
   id: number;
-  date: StringDate;
+  date: Date;
   index: string;
   capitalizations: { [symbol: string]: number };
   original_percents: { [symbol: string]: number };
@@ -168,3 +191,16 @@ interface DataAdjustments {
 }
 
 type StringDate = `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
+
+interface Splits {
+  symbol: string;
+  splits: ResponseDividents[];
+}
+
+interface Generic {
+  [key: string]: strign | number;
+}
+
+interface DataItem {
+  [key: string]: number | null | undefined;
+}

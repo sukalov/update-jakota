@@ -6,10 +6,10 @@ import { CurrenciesPrice, DataPrices, IndexDay, ResponseHistorical, StocksInfo, 
 export default async function getIndexPrices(
   data: StocksInfo[],
   currenciesData: CurrenciesPrice[],
-  startDate: string
+  startDate: StringDate
 ): Promise<DataPrices[]> {
-  let resData: any = [];
 
+  let resData: DataPrices[] = [];
   try {
     const batchSize = 50;
     const requests = [];

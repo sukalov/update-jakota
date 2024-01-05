@@ -5,7 +5,7 @@ import { DataPrices, StocksInfo } from '@/types/data-functions';
 
 export const updateMarketCaps = async (dataSharesOutstanding: StocksInfo[], indexPrices: DataPrices[]) => {
   const todayPrices = indexPrices.at(-1) as DataPrices;
-  const res: any = [];
+  const res: {el: string, currentMC: number}[] = [];
   let count = 0;
   for (let el in todayPrices) {
     console.log({ count, el });

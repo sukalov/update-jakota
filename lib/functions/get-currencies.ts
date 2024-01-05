@@ -3,30 +3,36 @@ import { eod } from '@/lib/functions/get-from-eod';
 import { addMissingValues, getInitialIndexDates } from '@/lib/functions/utils';
 import { currencies } from '@/lib/db/schema';
 import { sql } from 'drizzle-orm';
-import { CurrenciesPrice, ResponseHistorical } from '@/types/data-functions';
+import { CurrenciesPrice, CurrenciesPriceDB, CurrenciesPriceExtended, ResponseHistorical, StringDate } from '@/types/data-functions';
 
 export default async function getCurrenencyPrices(
-  startDate: string = '2022-12-28',
-  currenciesToCollect: Array<string> = ['KRW', 'JPY', 'TWD']
+  startDate: StringDate = '2022-12-28'
 ) {
+  const currenciesToCollect: Array<'KRW' | 'JPY' | 'TWD'> = ['KRW', 'JPY', 'TWD']
   try {
     const requests = currenciesToCollect.map((stock) => eod.historicalAsync(`${stock}.FOREX`, startDate));
     const responses = await Promise.all(requests);
-    const errors = responses.filter((response: { ok: boolean }) => !response.ok);
+    const errors = responses.filter((response: Response) => !response.ok);
 
     if (errors.length > 0) {
-      throw errors.map((response: { statusText: string | undefined }) => Error(response.statusText));
+      throw errors.map((response: Response) => Error(response.statusText));
     }
     const json = responses.map((response: Response) => response.json());
     const result = (await Promise.all(json)) as Array<ResponseHistorical[]>;
 
-    const newData: any[] = [];
+    const newData: CurrenciesPrice[] = [];
 
     result.forEach((data, i) => {
       data.forEach((day) => {
-        const currencyName = currenciesToCollect[i] ?? '';
+        let defaultPrices = {
+            KRW: 1,
+            JPY: 1,
+            TWD: 1
+          }
+        const currencyName = currenciesToCollect[i];
         if (i === 0) {
           newData.push({
+            ...defaultPrices,
             date: day.date,
             [currencyName]: Number(day.adjusted_close.toFixed(2)),
           });
@@ -46,7 +52,8 @@ export default async function getCurrenencyPrices(
       indexHistory[i] = cur;
     });
 
-    const newData2 = addMissingValues(indexHistory) as any[];
+    let newData2 = addMissingValues(indexHistory) as CurrenciesPriceDB[];
+    newData2.forEach(day => day.date = new Date(day.date))
 
     await db.delete(currencies);
     await db
