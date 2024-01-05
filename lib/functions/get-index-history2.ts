@@ -51,7 +51,7 @@ export default function getIndexHistory2(
         percents[symbol] !== undefined
       ) {
         symbol_return_change =
-          ((Number(day[symbol]) + dataDividents[day.date]?.[symbol]) / day_previous[symbol]) * percents[symbol] ??
+          ((Number(day[symbol]) + dataDividents[day.date]?.[symbol]) / Number(day_previous[symbol])) * percents[symbol] ??
           symbol_change;
       } else {
         symbol_return_change = symbol_change;
