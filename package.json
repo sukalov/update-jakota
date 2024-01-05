@@ -4,6 +4,7 @@
   "type": "module",
   "devDependencies": {
     "@types/d3": "^7.4.3",
+    "@types/inquirer": "^9.0.7",
     "bun-types": "latest",
     "drizzle-kit": "^0.20.7"
   },
@@ -14,6 +15,7 @@
     "@planetscale/database": "^1.13.0",
     "d3": "^7.8.5",
     "drizzle-orm": "^0.29.1",
+    "inquirer": "^9.2.12",
     "mysql2": "^3.6.5",
     "prettier": "^3.1.1"
   },
@@ -22,6 +24,7 @@
     "start": "bun run index.ts --zone=US",
     "repeat": "bun run repeat.ts --zone=US",
     "splits": "bun run lib/splits.ts",
-    "new-adjustments": "bun run lib/new-adjustments.ts"
+    "new-adjustments": "bun run lib/new-adjustments.ts",
+    "new-volume": "bun run lib/new-index-volume.ts"
   }
 }
