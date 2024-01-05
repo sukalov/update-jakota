@@ -6,7 +6,7 @@
     "@types/d3": "^7.4.3",
     "@types/inquirer": "^9.0.7",
     "bun-types": "latest",
-    "drizzle-kit": "^0.20.7"
+    "drizzle-kit": "^0.20.10"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -14,13 +14,13 @@
   "dependencies": {
     "@planetscale/database": "^1.13.0",
     "d3": "^7.8.5",
-    "drizzle-orm": "^0.29.1",
+    "drizzle-orm": "^0.29.3",
     "inquirer": "^9.2.12",
     "mysql2": "^3.6.5",
     "prettier": "^3.1.1"
   },
   "scripts": {
-    "migrations:generate": "drizzle-kit generate:mysql",
+    "db:push": "bunx drizzle-kit push:mysql --config=drizzle.config.ts",
     "start": "bun run index.ts --zone=US",
     "repeat": "bun run repeat.ts --zone=US",
     "splits": "bun run lib/splits.ts",
