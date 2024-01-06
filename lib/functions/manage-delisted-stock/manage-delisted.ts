@@ -22,7 +22,7 @@ const questions = [
     {
       type: /^(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01]))$/,
       name: 'date',
-      message: 'And type the date when stock must be frozen (format YYYY-MM-DD):',
+      message: 'The date when stock must be frozen (format YYYY-MM-DD):',
       validate: (input: string) => {
         if (stringDateRegEx.test(input)) {
           return true;

@@ -25,6 +25,7 @@
     "repeat": "bun run lib/repeat.ts --zone=US",
     "splits": "bun run lib/splits.ts",
     "new-adjustments": "bun run lib/functions/create-adjustments/new-adjustments.ts",
-    "new-volume": "bun run lib/functions/index-volume/new-index-volume.ts"
+    "new-volume": "bun run lib/functions/index-volume/new-index-volume.ts",
+    "delisted": "bun run lib/functions/manage-delisted-stock/manage-delisted.ts"
   }
 }
