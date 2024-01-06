@@ -3,7 +3,6 @@ import { adjustments } from '@/lib/db/schema';
 import { DataAdjustments, StringDate } from '@/types/data-functions';
 
 export default async function removeStockFromAdjustment(adjustment: DataAdjustments, stock: string, date: StringDate) {
-
   const length = Object.keys(adjustment.percents).length - 1;
   const addition = Number(adjustment.percents[stock]) / length;
   const newAdjustment = JSON.parse(JSON.stringify(adjustment)) as any;
