@@ -1,6 +1,6 @@
+import { IndexName } from '@/lib/constants/index-names';
 import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
 import { DataAdjustments, DataDividents, DataPrices, IndexDay } from '@/types/data-functions';
-import { IndexName } from '@/lib/constants/index-names';
 
 export default function getIndexHistory2(
   dataIndexPrices: DataPrices[],
@@ -63,6 +63,17 @@ export default function getIndexHistory2(
     index_prev = index;
     total_return = total_return_prev * index_return_change;
     total_return_prev = total_return;
+    
+    if (index > 5000) {
+      console.log({
+        date: day.date,
+        name: indexName,
+        adjustment: dataAdjustments[i].date.toISOString().slice(0, 10),
+        index,
+        total_return,
+      });
+      throw new Error();
+    }
 
     indexHistory.push({
       date: day.date,

@@ -70,7 +70,7 @@ export default async function getIndexPrices(
       });
     });
 
-    console.log('completed!');
+    console.log('completed with collecting and parcing EOD data.');
 
     resData = completeData;
     return completeData;
