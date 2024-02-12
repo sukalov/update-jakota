@@ -1,5 +1,5 @@
-import { mysqlTable, serial, text, date, json, bigint, float, boolean, varchar, unique } from 'drizzle-orm/mysql-core';
 import { IndexName } from '@/lib/constants/index-names';
+import { bigint, boolean, date, float, int, json, mysqlTable, serial, text, unique, varchar } from 'drizzle-orm/mysql-core';
 
 export const currencies = mysqlTable('currencies', {
   date: date('date').primaryKey(),
@@ -54,6 +54,7 @@ export const dividents = mysqlTable('dividents', {
 
 export const indexnames = mysqlTable('indexnames', {
   id: varchar('id', { length: 20 }).primaryKey(),
+  number: int('number').unique()
 });
 
 export const indexprices = mysqlTable('indexprices', {
