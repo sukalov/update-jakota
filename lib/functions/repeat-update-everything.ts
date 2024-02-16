@@ -1,22 +1,15 @@
-import { initialSteps } from '@/lib/functions/update-currencies-data';
-import { db } from '@/lib/db';
-import { stocks_info, adjustments, indicies, dividents, indexprices, indexnames } from '@/lib/db/schema';
-import { eq, isNull } from 'drizzle-orm';
 import { IndexName } from '@/lib/constants/index-names.ts';
+import { db } from '@/lib/db';
+import { adjustments, dividents, indexnames, indexprices, indicies, stocks_info } from '@/lib/db/schema';
 import getIndexHistory2 from '@/lib/functions/get-index-history2';
+import { initialSteps } from '@/lib/functions/update-currencies-data';
 import { updateMarketCaps } from '@/lib/functions/update-market-caps';
-import {
-  DataAdjustments,
-  DataDividents,
-  DataPrices,
-  DividentsDB,
-  IndexDay,
-  IndexDayDB,
-  StocksInfo,
-} from '@/types/data-functions';
+import { DataAdjustments, DataDividents, DataPrices, DividentsDB, IndexDay, IndexDayDB, StocksInfo } from '@/types/data-functions';
+import { eq, isNull } from 'drizzle-orm';
 
 export async function repeatUpdateEverything() {
   const indexNames = (await db.select().from(indexnames)).map((el) => el.id) as IndexName[];
+  // const indexNames = (await db.select().from(indexnames).where(eq(indexnames.id, 'om-60'))).map((el) => el.id) as IndexName[];
   await initialSteps();
   let newData = [] as IndexDayDB[];
   const dataSharesOutstandingNoDelisted = (await db
@@ -61,5 +54,5 @@ export async function repeatUpdateEverything() {
     console.log({ indexName, status: 'done' });
   }
 
-  await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
+  // await updateMarketCaps(dataSharesOutstandingNoDelisted, dataIndexPrices);
 }

@@ -1,4 +1,5 @@
 import { IndexName } from '@/lib/constants/index-names';
+import { csv } from '@/lib/functions/read-write-csv';
 import { getArgs, isFirstJanuary } from '@/lib/functions/utils';
 import { DataAdjustments, DataDividents, DataPrices, IndexDay } from '@/types/data-functions';
 
@@ -19,7 +20,18 @@ export default function getIndexHistory2(
   let i = 0;
   let indexHistory: IndexDay[] = [];
 
+  // const yearlyPrices: { [key: string]: any[] } = {};
+  // const yearlyPricesCSV: string[][] = [];
   dataIndexPrices.forEach((day: DataPrices, ind: number) => {
+    // if (day.date === '2022-12-31' || day.date === '2023-01-02') {
+    //   for (let j = 0; j < Object.keys(dataAdjustments[i].percents).length; j++) {
+    //     const element = Object.keys(dataAdjustments[i].percents)[j];
+    //     yearlyPrices[element] = (yearlyPrices[element] || []).concat(day[element]);
+    //     if (day.date === '2023-01-02') {
+    //       yearlyPricesCSV.push([element].concat(yearlyPrices[element]));
+    //     }
+    //   }
+    // }
     let day_previous: DataPrices = day;
     if (ind > 0) day_previous = dataIndexPrices[ind - 1];
     const dayDate = new Date(day.date);
@@ -33,7 +45,7 @@ export default function getIndexHistory2(
     } else {
       checkAdjDate = tomorrow;
     }
-    if (dayDate.toLocaleDateString() === checkAdjDate.toLocaleDateString()) {
+    if (dayDate.toLocaleDateString() === checkAdjDate.toLocaleDateString() && checkAdjDate.getFullYear() !== 2022) {
       i += 1;
     }
 
@@ -42,6 +54,16 @@ export default function getIndexHistory2(
     let index_return_change = 0;
     Object.keys(percents).forEach((symbol) => {
       let symbol_change = (Number(day[symbol]) / Number(day_previous[symbol])) * percents[symbol];
+      // if ((day.date === '2023-01-01' || day.date === '2023-01-02')) {
+      //   console.log({
+      //     symbol,
+      //     symbol_change,
+      //     symbol_percent: percents[symbol],
+      //     day_symbol: day[symbol],
+      //     prev: day_previous[symbol],
+      //     'today/prev': Number(day[symbol]) / Number(day_previous[symbol]),
+      //   });
+      // }
       if (isNaN(symbol_change)) symbol_change = 0;
       index_change += symbol_change;
       let symbol_return_change;
@@ -63,7 +85,16 @@ export default function getIndexHistory2(
     index_prev = index;
     total_return = total_return_prev * index_return_change;
     total_return_prev = total_return;
-    
+
+    // if (day.date === '2023-01-01' || day.date === '2023-01-02') {
+    //   console.log({
+    //     LOG: 'INDEX',
+    //     index_prev,
+    //     index_change,
+    //     index,
+    //   })
+    // }
+
     if (index > 5000) {
       console.log({
         date: day.date,
@@ -104,6 +135,7 @@ export default function getIndexHistory2(
       (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1] && !isItFirstJanuary)
     );
   });
+  // csv.write('OM60_12_jan_ADJ_I', yearlyPricesCSV);
 
   return indexHistoryNoWeekends;
 }

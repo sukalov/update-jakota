@@ -40,14 +40,14 @@ const write = async (file: string, data: Generic[]) => {
 };
 
 const readJSON = async (file: string) => {
-  const csvDir = path.join(process.cwd(), 'src/data/json/');
+  const csvDir = path.join(process.cwd(), 'lib/data/');
   const dataFile = await fs.readFile(csvDir + file + '.json', 'utf8');
   const data = JSON.parse(dataFile) as Generic;
   return data;
 };
 
 const writeJSON = async (file: string, data: Generic) => {
-  const csvDir = path.join(process.cwd(), 'src/data/json/');
+  const csvDir = path.join(process.cwd(), 'lib/data/');
   const dataFile = JSON.stringify(data);
   await fs.writeFile(csvDir + file + '.json', dataFile, 'utf8');
 };
