@@ -23,11 +23,11 @@ export default function getIndexHistory2(
   // const yearlyPrices: { [key: string]: any[] } = {};
   // const yearlyPricesCSV: string[][] = [];
   dataIndexPrices.forEach((day: DataPrices, ind: number) => {
-    // if (day.date === '2022-12-31' || day.date === '2023-01-02') {
+    // if (day.date === '2022-12-31' || day.date === '2023-12-29') {
     //   for (let j = 0; j < Object.keys(dataAdjustments[i].percents).length; j++) {
     //     const element = Object.keys(dataAdjustments[i].percents)[j];
     //     yearlyPrices[element] = (yearlyPrices[element] || []).concat(day[element]);
-    //     if (day.date === '2023-01-02') {
+    //     if (day.date === '2023-12-29') {
     //       yearlyPricesCSV.push([element].concat(yearlyPrices[element]));
     //     }
     //   }
@@ -45,7 +45,7 @@ export default function getIndexHistory2(
     } else {
       checkAdjDate = tomorrow;
     }
-    if (dayDate.toLocaleDateString() === checkAdjDate.toLocaleDateString() && checkAdjDate.getFullYear() !== 2022) {
+    if (dayDate.toLocaleDateString() === checkAdjDate.toLocaleDateString() && dayDate.getFullYear() !== 2022) {
       i += 1;
     }
 
@@ -78,6 +78,17 @@ export default function getIndexHistory2(
       } else {
         symbol_return_change = symbol_change;
       }
+      // if (symbol_return_change > 50)
+      //   console.log({
+      //     symbol,
+      //     dayDate,
+      //     symbol_change,
+      //     symbol_return_change,
+      //     daysymbol: day[symbol],
+      //     plusDiv: dataDividents[day.date]?.[symbol],
+      //     divideToYesterday: day_previous[symbol],
+      //     multiplicateToPersent: percents[symbol]
+      //   });
       index_return_change += symbol_return_change;
     });
 
@@ -87,12 +98,13 @@ export default function getIndexHistory2(
     total_return_prev = total_return;
 
     // if (day.date === '2023-01-01' || day.date === '2023-01-02') {
-    //   console.log({
-    //     LOG: 'INDEX',
-    //     index_prev,
-    //     index_change,
-    //     index,
-    //   })
+    // console.log({
+    //   date: day.date,
+    //   index_prev,
+    //   index_change,
+    //   index,
+    //   total_return
+    // })
     // }
 
     if (index > 5000) {
@@ -135,7 +147,7 @@ export default function getIndexHistory2(
       (new Date(day.date).getDay() !== weekend[0] && new Date(day.date).getDay() !== weekend[1] && !isItFirstJanuary)
     );
   });
-  // csv.write('OM60_12_jan_ADJ_I', yearlyPricesCSV);
+  // csv.write('OM60_StartEnd_2023', yearlyPricesCSV);
 
   return indexHistoryNoWeekends;
 }

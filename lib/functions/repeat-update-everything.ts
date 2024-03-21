@@ -35,7 +35,7 @@ export async function repeatUpdateEverything() {
       .where(eq(adjustments.index, indexName))) as DataAdjustments[];
 
     indexAdjustments.sort(function (a, b) {
-      return new Date(b.date).valueOf() + new Date(a.date).valueOf();
+      return new Date(a.date).valueOf() - new Date(b.date).valueOf();
     });
 
     const indexHistory = getIndexHistory2(dataIndexPrices, indexAdjustments, dataDividents, indexName) as IndexDay[];

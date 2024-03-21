@@ -1,23 +1,14 @@
-import getIndexPrices from '@/lib/functions/get-index-prices';
-import { initialSteps } from '@/lib/functions/update-currencies-data';
-import { db } from '@/lib/db';
-import { stocks_info, currencies, adjustments, indicies, dividents, indexprices, indexnames } from '@/lib/db/schema';
-import { eq, isNull } from 'drizzle-orm';
-import { timeout } from '@/lib/functions/utils';
-import getIndexHistory2 from '@/lib/functions/get-index-history2';
-import { updateMarketCaps } from '@/lib/functions/update-market-caps';
-import {
-  CurrenciesPrice,
-  CurrenciesPriceDB,
-  DataAdjustments,
-  DataDividents,
-  DividentsDB,
-  IndexDay,
-  IndexDayDB,
-  StocksInfo,
-  StringDate,
-} from '@/types/data-functions';
 import { IndexName } from '@/lib/constants/index-names';
+import { db } from '@/lib/db';
+import { adjustments, currencies, dividents, indexnames, indexprices, indicies, stocks_info } from '@/lib/db/schema';
+import getIndexHistory2 from '@/lib/functions/get-index-history2';
+import getIndexPrices from '@/lib/functions/get-index-prices';
+import { csv } from '@/lib/functions/read-write-csv';
+import { initialSteps } from '@/lib/functions/update-currencies-data';
+import { updateMarketCaps } from '@/lib/functions/update-market-caps';
+import { timeout } from '@/lib/functions/utils';
+import { CurrenciesPrice, CurrenciesPriceDB, DataAdjustments, DataDividents, DividentsDB, IndexDay, IndexDayDB, StocksInfo, StringDate } from '@/types/data-functions';
+import { eq, isNull } from 'drizzle-orm';
 
 export async function updateEverything() {
   await initialSteps();
@@ -42,6 +33,7 @@ export async function updateEverything() {
   }, {});
 
   const dataIndexPrices = await getIndexPrices(dataSharesOutstanding, currenciesData, '2022-12-28');
+  // await csv.writeJSON('indexprices21march', dataIndexPrices)
   await db.delete(indexprices);
   await timeout(1000);
   await db.insert(indexprices).values({ type: 'indexprices', json: dataIndexPrices });
@@ -54,7 +46,7 @@ export async function updateEverything() {
       .where(eq(adjustments.index, indexName))) as DataAdjustments[];
 
     indexAdjustments.sort(function (a, b) {
-      return new Date(b.date).valueOf() + new Date(a.date).valueOf();
+      return new Date(a.date).valueOf() - new Date(b.date).valueOf();
     });
 
     const indexHistory = getIndexHistory2(dataIndexPrices, indexAdjustments, dataDividents, indexName) as IndexDay[];
